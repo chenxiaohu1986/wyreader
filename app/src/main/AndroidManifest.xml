@@ -26,13 +26,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/CyanTheme">
-        <activity android:name=".view.activity.MainActivity">
+
+        <activity android:name=".view.activity.impl.SplashActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+
+
+
+        <activity android:name=".view.activity.impl.MainActivity" android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>
