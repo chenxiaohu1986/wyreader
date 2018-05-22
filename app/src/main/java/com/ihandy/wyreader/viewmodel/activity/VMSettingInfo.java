@@ -1,7 +1,6 @@
 package com.ihandy.wyreader.viewmodel.activity;
 
 import android.content.Context;
-import android.media.session.MediaSession;
 import android.util.Log;
 
 import com.allen.library.RxHttpUtils;
