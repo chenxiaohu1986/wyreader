@@ -1,17 +1,22 @@
 package com.ihandy.wyreader.view.base;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ihandy.wyreader.utils.LogUtils;
 import com.ihandy.wyreader.viewmodel.BaseViewModel;
 
 import butterknife.ButterKnife;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by cxh on 18/5/22.
@@ -22,6 +27,8 @@ public class BaseFragment extends Fragment {
 	protected BaseViewModel mModel;
 	protected Context mContext;
 	private View mBindView;
+	private View mView;
+	protected CompositeDisposable mDisposable;
 
 	/**
 	 * 获得全局的，防止使用getActivity()为空
@@ -50,6 +57,62 @@ public class BaseFragment extends Fragment {
 			this.mModel = mModel;
 		}
 		return mBindView;
+	}
+
+	/**
+	 * 不使用Databinding设置布局
+	 *
+	 * @param resId  布局layout
+	 * @param mModel viewmodel
+	 */
+	public View setContentView(ViewGroup container, @LayoutRes int resId, BaseViewModel mModel) {
+		if (mView == null){
+			mView = LayoutInflater.from(getActivity()).inflate(resId,container,false);
+			ButterKnife.bind(this,mView);
+			this.mModel = mModel;
+			initView();
+		}
+		return mView;
+	}
+
+	public void initView() {
+	}
+
+	protected void addDisposable(Disposable d) {
+		if (mDisposable == null) {
+			mDisposable = new CompositeDisposable();
+		}
+		mDisposable.add(d);
+	}
+
+	/**
+	 * activity跳转（无参数）
+	 *
+	 * @param className
+	 */
+	public void startActivity(Class<?> className) {
+		Intent intent = new Intent(mContext, className);
+		startActivity(intent);
+	}
+
+	/**
+	 * activity跳转（有参数）
+	 *
+	 * @param className
+	 */
+	public void startActivity(Class<?> className, Bundle bundle) {
+		Intent intent = new Intent(mContext, className);
+		intent.putExtras(bundle);
+		startActivity(intent);
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if (mModel != null) {
+			LogUtils.d("onDestroy");
+			mModel.onDestroy();
+		}
 	}
 
 
