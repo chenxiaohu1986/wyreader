@@ -26,6 +26,7 @@ import com.ihandy.wyreader.utils.BaseUtils;
 import com.ihandy.wyreader.view.activity.ISetting;
 import com.ihandy.wyreader.view.adapter.MainMenuAdapter;
 import com.ihandy.wyreader.view.base.BaseActivity;
+import com.ihandy.wyreader.view.fragment.impl.BookClassifyFragment;
 import com.ihandy.wyreader.viewmodel.activity.VMSettingInfo;
 import com.ihandy.wyreader.widget.MarqueTextView;
 import com.ihandy.wyreader.widget.ResideLayout;
@@ -151,7 +152,7 @@ public class MainActivity extends BaseActivity implements ColorChooserDialog.Col
 		if (foundFragment == null){
 			switch (name){
 				case "分类":
-
+					foundFragment = BookClassifyFragment.newInstance();
 					break;
 				default:
 					break;
@@ -167,6 +168,16 @@ public class MainActivity extends BaseActivity implements ColorChooserDialog.Col
 		}
 		ft.commit();
 		currentFragmentTag = name;
+	}
+
+
+	/**
+	 * 菜单是否可左滑
+	 *
+	 * @param isCanSlide
+	 */
+	public void setLeftSlide(boolean isCanSlide) {
+		mResideLayout.setCanLeftSlide(isCanSlide);
 	}
 
 
